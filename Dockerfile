@@ -18,7 +18,7 @@ COPY --from=build-env /app/out/api .
 ENV ASPNETCORE_ENVIRONMENT Homolog
 
 # Expose port 80 for the web application
-EXPOSE 80
+EXPOSE 8080
 
 # Set the entry point for the application
 ENTRYPOINT ["dotnet", "CompostaAqui.Api.dll"]
