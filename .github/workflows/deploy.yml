@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: hml
     env:
-      IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/site:latest
+      COMMIT_SHA: ${{ github.sha }}
+      IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/site/site:${{ github.sha }}
     steps:
       # Git checkout
       - name: Checkout
