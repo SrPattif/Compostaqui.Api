@@ -7,6 +7,7 @@ namespace CompostaAqui.Api
     {
         public static void AddServices(this IServiceCollection services, IConfiguration configuration)
         {
+
             services.AddApplication(configuration);
             services.AddInfrastructure(configuration);
         }
