@@ -1,51 +1,39 @@
-name: Build and Push Docker API to GCR
+name: GCP
 
 on:
   push:
-    branches:
-      - develop
+    branches: [develop]
 
 jobs:
-  build:
+  deploy:
+    name: Setup Gcloud Account
     runs-on: ubuntu-latest
+    environment: hml
     env:
       IMAGE_NAME: gcr.io/${{ secrets.GCP_PROJECT_ID }}/site:latest
-
     steps:
-      - name: Checkout code
+      # Git checkout
+      - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
+      # Login to GCP
+      - uses: google-github-actions/setup-gcloud@v0.2.0
         with:
-          version: "latest"
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Login to GCR
-        uses: docker/login-action@v3
-        with:
-          registry: gcr.io
-          username: _json_key
-          password: ${{ secrets.GCP_SA_KEY }}
+      # gcloud configure docker
+      - name: Configure Docker
+        run: gcloud auth configure-docker --quiet
 
+      # build image
       - name: Build Docker image
-        run: |
-          docker build -f Dockerfile-api -t $IMAGE_NAME .
+        run: docker build -t $IMAGE_NAME .
 
-      - name: Push Docker image to GCR
-        run: |
-          docker push $IMAGE_NAME
+      # push image to registry
+      - name: Push Docker image
+        run: docker push $IMAGE_NAME
 
-      - id: "auth"
-        uses: "google-github-actions/auth@v2"
-        with:
-          credentials_json: "${{ secrets.GCP_SA_KEY }}"
-
-      - id: "deploy"
-        run: |-
-          gcloud run deploy site \
-          --image=$IMAGE_NAME \
-          --platform=managed \
-          --region=us-central1 \
-          --allow-unauthenticated
+      # deploy image
+      - name: Deploy Docker image
+        run: gcloud run deploy site --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 80 --allow-unauthenticated
