@@ -21,4 +21,4 @@ ENV ASPNETCORE_ENVIRONMENT Homolog
 EXPOSE 80
 
 # Set the entry point for the application
-ENTRYPOINT ["dotnet", "App.Web.Host.dll"]
+ENTRYPOINT ["dotnet", "Compostaqui.Api.dll"]
