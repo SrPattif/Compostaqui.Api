@@ -1,7 +1,8 @@
-﻿namespace CompostaAqui.Application.Models
+﻿namespace CompostaAqui.Application.Models.Composter
 {
     public class ComposterModel
     {
+        public Guid Uuid { get; set; }
         public string DisplayName { get; set; }
         public string StreetName { get; set; }
         public string StreetNumber { get; set; }

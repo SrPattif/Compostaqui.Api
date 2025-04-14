@@ -1,4 +1,5 @@
 ﻿using CompostaAqui.Application.Interfaces;
+using CompostaAqui.Application.Models.Composter;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompostaAqui.Api.Controllers
@@ -18,6 +19,20 @@ namespace CompostaAqui.Api.Controllers
         public async Task<IActionResult> Get()
         {
             var result = await _service.GetAllAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("{uuid}")]
+        public async Task<IActionResult> Get(Guid uuid)
+        {
+            var result = await _service.GetByGuidAsync(uuid);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] ComposterPostModel model)
+        {
+            var result = await _service.CreateAsync(model);
             return Ok(result);
         }
     }
