@@ -1,4 +1,4 @@
-﻿using CompostaAqui.Application.Models;
+﻿using CompostaAqui.Application.Models.Composter;
 using CompostaAqui.Domain.Entities;
 
 namespace CompostaAqui.Application.Mappers
@@ -9,6 +9,7 @@ namespace CompostaAqui.Application.Mappers
         {
             return new ComposterModel()
             {
+                Uuid = entity.Uuid,
                 DisplayName = entity.DisplayName,
                 StreetName = entity.StreetName,
                 StreetNumber = entity.StreetNumber,

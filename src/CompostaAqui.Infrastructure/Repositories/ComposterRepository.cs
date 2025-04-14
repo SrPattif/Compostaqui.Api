@@ -39,7 +39,7 @@ namespace CompostaAqui.Infrastructure.Repositories
             return await _unitOfWork.Connection.QueryAsync<ComposterEntity>(sql, transaction: _unitOfWork.Transaction);
         }
 
-        public async Task<ComposterEntity> GetByUuid(Guid uuid)
+        public async Task<ComposterEntity> GetByGuidAsync(Guid uuid)
         {
             const string sql = @$"SELECT Id,
                                         Uuid,
