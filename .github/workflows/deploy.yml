@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: hml
     env:
-      API_NAME: ${{ API_NAME }}
+      API_NAME: api-hml-compostaqui
       COMMIT_SHA: ${{ github.sha }}
       IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/$API_NAME/$API_NAME:${{ github.sha }}
     steps:
