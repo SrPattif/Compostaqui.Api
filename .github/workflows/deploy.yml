@@ -38,3 +38,25 @@ jobs:
       # deploy image
       - name: Deploy Docker image
         run: gcloud run deploy ${{ vars.API_NAME }} --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 8080 --allow-unauthenticated
+
+      - name: Health check - Ping endpoint
+        run: |
+          URL=$(gcloud run services describe ${{ vars.API_NAME }} --region us-central1 --format='value(status.url)')
+          echo "Calling $URL"
+
+          for i in {1..10}; do
+            response=$(curl -s -w "%{http_code}" -o result.json "$URL")
+            if [ "$response" -eq 200 ]; then
+              echo "✅ API is up!"
+              cat result.json
+              break
+            else
+              echo "⏳ Waiting for service to become available... ($i/10)"
+              sleep 5
+            fi
+          done
+
+          if [ "$response" -ne 200 ]; then
+            echo "❌ API did not become available after deploy."
+            exit 1
+          fi
