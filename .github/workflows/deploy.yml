@@ -13,31 +13,35 @@ jobs:
       COMMIT_SHA: ${{ github.sha }}
       IMAGE_NAME: us-central1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ vars.API_NAME }}/${{ vars.API_NAME }}:${{ github.sha }}
     steps:
-      # Git checkout
       - name: Checkout
         uses: actions/checkout@v2
 
-      # Login to GCP
       - uses: google-github-actions/setup-gcloud@v0.2.0
         with:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      # gcloud configure docker
       - name: Configure Docker
         run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
 
-      # build image
       - name: Build Docker image
         run: docker build -t $IMAGE_NAME .
 
-      # push image to registry
       - name: Push Docker image
         run: docker push $IMAGE_NAME
 
-      # deploy image
       - name: Deploy Docker image
-        run: gcloud run deploy ${{ vars.API_NAME }} --image $IMAGE_NAME --region us-central1 --memory 128Mi --min-instances 0 --max-instances 1 --platform managed --port 8080 --allow-unauthenticated
+        run: |
+          gcloud run deploy ${{ vars.API_NAME }} \
+            --image $IMAGE_NAME \
+            --region us-central1 \
+            --memory 128Mi \
+            --min-instances 0 \
+            --max-instances 1 \
+            --platform managed \
+            --port 8080 \
+            --allow-unauthenticated \
+            --set-env-vars DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Health check - Ping endpoint
         run: |
