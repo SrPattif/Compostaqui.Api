@@ -12,7 +12,9 @@ namespace CompostaAqui.Infrastructure.UnitOfWorks
 
         public UnitOfWorkCompostaqui(IConfiguration configuration)
         {
-            ConnectionString = configuration.GetConnectionString("CompostaquiDb");
+            var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
+            if (string.IsNullOrEmpty(connectionString)) connectionString = configuration.GetConnectionString("CompostaquiDb");
+            ConnectionString = connectionString;
         }
 
         public bool InTransaction() => Transaction != null;
