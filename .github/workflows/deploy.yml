@@ -1,4 +1,4 @@
-name: GCP
+name: Compostaqui.Api
 
 on:
   push:
