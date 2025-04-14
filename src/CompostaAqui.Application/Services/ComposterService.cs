@@ -51,5 +51,37 @@ namespace CompostaAqui.Application.Services
 
             return await GetByGuidAsync(uuid);
         }
+
+        public async Task<ComposterModel> UpdateAsync(Guid uuid, ComposterPutModel model)
+        {
+            // validator
+
+            await _unitOfWork.Composter.UpdateAsync(new ComposterEntity
+            {
+                Uuid = uuid,
+                City = model.City,
+                Country = model.Country,
+                DisplayName = model.DisplayName,
+                Email = model.Email,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
+                Neighborhood = model.Neighborhood,
+                PhoneNumber = model.PhoneNumber,
+                State = model.State,
+                StreetName = model.StreetName,
+                StreetNumber = model.StreetNumber,
+                ZipCode = model.ZipCode
+            });
+
+            return await GetByGuidAsync(uuid);
+        }
+
+        public async Task<bool> DeleteAsync(Guid uuid)
+        {
+            // validator
+
+            var result = await _unitOfWork.Composter.DeleteAsync(uuid);
+            return result;
+        }
     }
 }

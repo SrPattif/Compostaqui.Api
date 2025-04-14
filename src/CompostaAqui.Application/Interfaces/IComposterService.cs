@@ -7,5 +7,7 @@ namespace CompostaAqui.Application.Interfaces
         Task<IEnumerable<ComposterModel>> GetAllAsync();
         Task<ComposterModel> GetByGuidAsync(Guid uuid);
         Task<ComposterModel> CreateAsync(ComposterPostModel model);
+        Task<ComposterModel> UpdateAsync(Guid uuid, ComposterPutModel model);
+        Task<bool> DeleteAsync(Guid uuid);
     }
 }

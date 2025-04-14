@@ -35,5 +35,19 @@ namespace CompostaAqui.Api.Controllers
             var result = await _service.CreateAsync(model);
             return Ok(result);
         }
+
+        [HttpPut("{uuid}")]
+        public async Task<IActionResult> Put(Guid uuid, [FromBody] ComposterPutModel model)
+        {
+            var result = await _service.UpdateAsync(uuid, model);
+            return Ok(result);
+        }
+
+        [HttpDelete("{uuid}")]
+        public async Task<IActionResult> Delete(Guid uuid)
+        {
+            var result = await _service.DeleteAsync(uuid);
+            return Ok(result);
+        }
     }
 }
