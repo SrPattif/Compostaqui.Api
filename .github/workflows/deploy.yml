@@ -41,7 +41,7 @@ jobs:
             --platform managed \
             --port 8080 \
             --allow-unauthenticated \
-            --set-env-vars DB_CONNECTION_STRING=${{ secrets.DB_CONNECTION_STRING }}
+            --set-env-vars DB_CONNECTION_STRING="${{ secrets.DB_CONNECTION_STRING }}"
 
       - name: Health check - Ping endpoint
         run: |
