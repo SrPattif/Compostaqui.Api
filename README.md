@@ -25,7 +25,7 @@ A aplicação está hospedada na **Google Cloud** e conta com um processo de dep
 - Push na branch `develop` → deploy automático para o ambiente de **Homologação**.
 - Push na branch `main` → deploy automático para o ambiente de **Produção**.
 
-📡 **Ambiente de Homologação:**  
+📡 **URL de Homologação:**  
 [https://api-hml-compostaqui-4v5phq6s2a-uc.a.run.app/](https://api-hml-compostaqui-4v5phq6s2a-uc.a.run.app/)
 
 ---
