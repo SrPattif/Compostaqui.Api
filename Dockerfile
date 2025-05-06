@@ -15,8 +15,6 @@ WORKDIR /app
 # Copy the published files from the build stage to the runtime image
 COPY --from=build-env /app/out/api .
 
-ENV ASPNETCORE_ENVIRONMENT Homolog
-
 # Expose port 80 for the web application
 EXPOSE 8080
 
